@@ -6,6 +6,7 @@ const categories = [
   "Travel",
   "Health",
   "Ideas",
+  "Development",
   "Miscellaneous",
 ];
 

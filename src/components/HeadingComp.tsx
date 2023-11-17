@@ -1,16 +1,14 @@
-import { Heading } from '@chakra-ui/react'
-import categories from '../constants/categories'
+import { Heading } from "@chakra-ui/react";
+import categories from "../constants/categories";
+import { useCategory } from "../contexts/categoryContext";
 
-interface Props{
-  selectedCategory: number
-}
-
-const HeadingComp = ({selectedCategory}: Props) => {
+const HeadingComp = () => {
+  const { selectedCategory } = useCategory();
   return (
-    <Heading>
-      {categories[selectedCategory-1]||"Your"} notes
+    <Heading fontFamily={"Montserrat"} fontWeight={"bold"}>
+      {categories[selectedCategory - 1] || "Your"} notes
     </Heading>
-  )
-}
+  );
+};
 
-export default HeadingComp
+export default HeadingComp;

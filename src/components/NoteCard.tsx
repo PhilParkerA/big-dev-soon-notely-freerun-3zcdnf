@@ -4,58 +4,83 @@ import {
   Center,
   HStack,
   Heading,
-  useColorModeValue,
-  Text,
   IconButton,
+  Text,
+  Tooltip,
+  useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
-import { FaPencil } from "react-icons/fa6";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
+import useNotesHook, { Note } from "../hooks/useNotesHook";
 import Category from "./Category";
-import { Note } from "../hooks/useNotes";
+import EditForm from "./EditForm";
+import { MouseEvent } from "react";
 
-interface Props{
-  note: Note
+interface Props {
+  note: Note;
 }
 
-const NoteCard = ({note}: Props) => {
+const NoteCard = ({ note }: Props) => {
+  const { deleteNote } = useNotesHook();
+  const toast = useToast();
+
+  const handleDelete = (event: MouseEvent<HTMLButtonElement>) => {
+    const cardNode =
+      event.currentTarget.parentElement?.parentElement?.parentElement
+        ?.parentElement?.parentElement;
+    cardNode?.classList.replace("note-card", "delete-note");
+    setTimeout(() => {
+      deleteNote(note);
+      toast({
+        title: "Note deleted.",
+        description: note.title,
+        variant: "solid",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }, 600);
+    console.log(cardNode);
+  };
   return (
     <Center>
       <Box
         p={5}
-        rounded={"lg"}
         w={"100%"}
         height={"240px"}
-        bg={useColorModeValue("white", "rgba(32,32,32,0.1)")}
+        bg={useColorModeValue("rgba(255,255,255,0.3)", "rgba(32,32,32,0.1)")}
         boxShadow={"lg"}
         pos={"relative"}
       >
         <HStack justifyContent={"space-between"} mb={5}>
-          <Category category={note.category}/>
+          <Category category={note.category} />
           <HStack spacing={0}>
-            <IconButton
-              isRound={true}
-              variant="solid"
-              bg={"transparent"}
-              aria-label="Done"
-              icon={<MdCheckBoxOutlineBlank />}
-            />
-            <IconButton
-              isRound={true}
-              variant="solid"
-              bg={"transparent"}
-              aria-label="Done"
-              icon={<FaPencil />}
-            />
-            <IconButton
-              isRound={true}
-              variant="solid"
-              bg={"transparent"}
-              aria-label="Done"
-              icon={<DeleteIcon />}
-            />
+            <Tooltip placement="top" label="Check">
+              <IconButton
+                isRound={true}
+                variant="solid"
+                bg={"transparent"}
+                aria-label="Done"
+                icon={<MdCheckBoxOutlineBlank />}
+              />
+            </Tooltip>
+            <EditForm note={note} />
+
+            <Tooltip placement="top" label="Delete">
+              <IconButton
+                onClick={handleDelete}
+                isRound={true}
+                variant="solid"
+                bg={"transparent"}
+                aria-label="Done"
+                icon={<DeleteIcon />}
+              />
+            </Tooltip>
           </HStack>
         </HStack>
-        <Heading fontSize={"2xl"}>{note.title}</Heading>
+        <Heading fontFamily={"Montserrat"} fontWeight={"bold"} fontSize={"2xl"}>
+          {note.title}
+        </Heading>
         <Text mt={2} fontSize={"sm"}>
           {note.text}
         </Text>

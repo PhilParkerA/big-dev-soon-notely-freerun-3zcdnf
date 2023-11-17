@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Box,
   Grid,
@@ -11,10 +10,13 @@ import {
 import AddForm from "./AddForm";
 import SearchInput from "./SearchInput";
 import ThemeSwitch from "./ThemeSwitch";
-import { useCategory } from "../contexts/categoryContext";
+import { useNotes } from "../contexts/notesContext";
 
-const NavBar = () => {
-  const { setSelectedCategory } = useCategory();
+export const NavBar = () => {
+  const { notes } = useNotes();
+
+  const { addNote } = useNotesHook();
+
   return (
     <>
       <Box
@@ -30,7 +32,7 @@ const NavBar = () => {
           maxWidth={"1600px"}
           mx={"auto"}
         >
-          <GridItem onClick={() => setSelectedCategory(0)}>
+          <GridItem>
             <Text fontWeight={"700"} cursor={"pointer"}>
               Notes App
             </Text>
@@ -41,7 +43,7 @@ const NavBar = () => {
           <GridItem justifySelf={"end"}>
             <Stack direction={"row"} spacing={7}>
               <ThemeSwitch />
-              <AddForm />
+              <AddForm notes={notes} addNote={addNote} />
             </Stack>
           </GridItem>
         </Grid>
@@ -49,5 +51,3 @@ const NavBar = () => {
     </>
   );
 };
-
-export default NavBar;

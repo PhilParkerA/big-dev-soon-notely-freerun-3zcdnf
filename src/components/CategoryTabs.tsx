@@ -7,28 +7,33 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import categories from "../constants/categories";
-import useNotes from "../hooks/useNotes";
+import { useNotes } from "../contexts/notesContext";
 import NoteCard from "./NoteCard";
-import NoteCardContainer from "./NoteCardContainer";
 import NotesGrid from "./NotesGrid";
+import NoteCardContainer from "./NoteCardContainer";
+import { useCategory } from "../contexts/categoryContext";
 
-interface Props {
-  setSelectedCategory: (category: number) => void;
-}
-
-const CategoryTabs = ({ setSelectedCategory }: Props) => {
+const CategoryTabs = () => {
   const { notes } = useNotes();
+  const { selectedCategory, setSelectedCategory } = useCategory();
 
   const handleTabChange = (category: number) => {
     setSelectedCategory(category);
   };
 
+
   return (
-    <Tabs mt={5} variant={"unstyled"} onChange={handleTabChange}>
+    <Tabs mt={5} variant={"unstyled"} index={selectedCategory} onChange={handleTabChange}>
       <TabList>
-        <Tab _selected={{ color: "brand.500" }}>All</Tab>
+        <Tab _selected={{ color: "brand.500", fontWeight: "700" }}>All</Tab>
         {categories.map((cat, index) => (
-          <Tab key={index} _selected={{ color: "brand.500" }}>
+          <Tab
+            key={index}
+            _selected={{ color: "brand.500", fontWeight: "700" }}
+            _hover={{
+              color: "brand.500"
+            }}
+          >
             {cat}
           </Tab>
         ))}
