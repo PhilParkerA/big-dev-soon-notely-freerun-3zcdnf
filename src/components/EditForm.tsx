@@ -42,7 +42,7 @@ const EditForm = ({ note }: Props) => {
   const [overlay, setOverlay] = useState(<OverlayOne />);
 
   const [title, setTitle] = useState(note.title);
-  const [text, setText] = useState(note.text);
+  const [description, setDescription] = useState(note.description);
   const [category, setCategory] = useState(note.category);
   const [completed, setCompleted] = useState(note.completed);
 
@@ -51,7 +51,7 @@ const EditForm = ({ note }: Props) => {
       const updatedNote = {
         ...note,
         title,
-        text,
+        description,
         category,
         completed,
         date: new Date().toISOString().slice(0, 10),
@@ -97,11 +97,11 @@ const EditForm = ({ note }: Props) => {
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Note</FormLabel>
+              <FormLabel>Description</FormLabel>
               <Textarea
-                placeholder="Note text"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
+                placeholder="Description..."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </FormControl>
 

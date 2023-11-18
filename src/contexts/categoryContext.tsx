@@ -21,7 +21,7 @@ const CategoryContext = createContext<CategoryContextType | null>(null);
 export const useCategory = () => {
   const context = useContext(CategoryContext);
   if (!context) {
-    throw new Error("useNotes must be used within a NotesProvider");
+    throw new Error("useCategory must be used within a CategoryProvider");
   }
   return context;
 };

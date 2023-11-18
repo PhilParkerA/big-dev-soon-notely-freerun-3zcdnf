@@ -38,7 +38,7 @@ const AddForm = () => {
   const [overlay, setOverlay] = useState(<OverlayOne />);
 
   const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
+  const [description, setDescription] = useState("");
   const [category, setCategory] = useState(categories[1]);
   const [completed, setCompleted] = useState(false);
 
@@ -53,7 +53,7 @@ const AddForm = () => {
       const newNote = {
         id: uniqueId,
         title,
-        text,
+        description,
         category,
         completed,
         date: new Date().toISOString().slice(0, 10),
@@ -68,7 +68,7 @@ const AddForm = () => {
     }
     // Reset the form state
     setTitle("");
-    setText("");
+    setDescription("");
     setCategory(categories[1]);
     setCompleted(false);
 
@@ -104,11 +104,11 @@ const AddForm = () => {
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Note</FormLabel>
+              <FormLabel>Description</FormLabel>
               <Textarea
-                placeholder="Note text"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
+                placeholder="Description..."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </FormControl>
 

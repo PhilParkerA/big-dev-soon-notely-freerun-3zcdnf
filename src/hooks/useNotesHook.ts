@@ -4,7 +4,7 @@ import { useNotes } from "../contexts/notesContext";
 export interface Note {
   id: string;
   title: string;
-  text: string;
+  description: string;
   category: string;
   date: string;
   completed: boolean;

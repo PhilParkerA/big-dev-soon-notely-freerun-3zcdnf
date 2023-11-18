@@ -6,15 +6,18 @@ import "./index.css";
 import theme from "./theme.ts";
 import { NotesProvider } from "./contexts/notesContext";
 import { CategoryProvider } from "./contexts/categoryContext.tsx";
+import { SearchTextProvider } from "./contexts/searchTextContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <NotesProvider>
-        <CategoryProvider>
-          <App />
-        </CategoryProvider>
-      </NotesProvider>
+      <SearchTextProvider>
+        <NotesProvider>
+          <CategoryProvider>
+            <App />
+          </CategoryProvider>
+        </NotesProvider>
+      </SearchTextProvider>
     </ChakraProvider>
   </React.StrictMode>
 );

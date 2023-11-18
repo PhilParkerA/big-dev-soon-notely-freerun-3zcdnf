@@ -82,7 +82,7 @@ const NoteCard = ({ note }: Props) => {
           {note.title}
         </Heading>
         <Text mt={2} fontSize={"sm"}>
-          {note.text}
+          {note.description}
         </Text>
         <Text
           color={"gray"}

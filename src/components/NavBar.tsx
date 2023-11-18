@@ -32,7 +32,7 @@ const NavBar = () => {
         >
           <GridItem onClick={() => setSelectedCategory(0)}>
             <Text fontWeight={"700"} cursor={"pointer"}>
-              Notes App
+              Notely
             </Text>
           </GridItem>
           <GridItem>
