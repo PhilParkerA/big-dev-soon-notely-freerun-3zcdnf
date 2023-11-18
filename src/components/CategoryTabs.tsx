@@ -1,8 +1,10 @@
 import {
   Box,
   Center,
+  Hide,
   Image,
-  Stack,
+  Select,
+  Show,
   Tab,
   TabIndicator,
   TabList,
@@ -11,26 +13,31 @@ import {
   Tabs,
   Text,
   VStack,
+  Wrap,
+  WrapItem,
+  useBreakpointValue,
 } from "@chakra-ui/react";
+import NoNotesSvg from "../assets/no-notes-illustration.svg";
+import NoSearchResultsSvg from "../assets/no-search-results-illustration.svg";
 import categories from "../constants/categories";
 import { useCategory } from "../contexts/categoryContext";
 import { useNotes } from "../contexts/notesContext";
+import { useSearchText } from "../contexts/searchTextContext";
+import { Note } from "../hooks/useNotesHook";
 import NoteCard from "./NoteCard";
 import NoteCardContainer from "./NoteCardContainer";
 import NotesGrid from "./NotesGrid";
-import NoNotesSvg from "../assets/no-notes-illustration.svg";
-import NoSearchResultsSvg from "../assets/no-search-results-illustration.svg";
-import { Note } from "../hooks/useNotesHook";
-import { useSearchText } from "../contexts/searchTextContext";
 
 const CategoryTabs = () => {
   const { notes } = useNotes();
-  const { searchText, setSearchText } = useSearchText();
+  const { searchText } = useSearchText();
   const { selectedCategory, setSelectedCategory } = useCategory();
 
   const handleTabChange = (category: number) => {
     setSelectedCategory(category);
   };
+
+  const isTabListVisible = useBreakpointValue({ base: false, lg: true });
 
   const includesSearch = (note: Note) => {
     if (note) {
@@ -56,31 +63,40 @@ const CategoryTabs = () => {
       index={selectedCategory}
       onChange={handleTabChange}
     >
-      <TabList>
-        {categories.map((cat, index) => (
-          <Tab
-            key={index}
-            _selected={{
-              color: "brand.500",
-              fontWeight: "700",
-              borderBottom: "2px",
-            }}
-            _hover={{
-              color: "brand.500",
-            }}
-          >
-            {cat}
-          </Tab>
-        ))}
-      </TabList>
-      {/* <Show above="lg"> */}
-      <TabIndicator
-        mt="-1.5px"
-        height="2px"
-        bg="brand.500"
-        borderRadius="1px"
-      />
-      {/* </Show> */}
+      <Hide below="md">
+        <TabList>
+          {categories.map((cat, index) => (
+            <Tab key={index}>{cat}</Tab>
+          ))}
+        </TabList>
+        <TabIndicator
+          mt="-1.5px"
+          height="2px"
+          bg="brand.500"
+          borderRadius="1px"
+        />
+      </Hide>
+      <Show below="md">
+        <Select
+          placeholder="All"
+          onChange={(e) =>
+            setSelectedCategory(
+              e.target.value
+                ? categories.findIndex((c) => c === e.target.value)
+                : 0
+            )
+          }
+        >
+          {categories.map(
+            (cat, index) =>
+              index > 0 && (
+                <option key={index} value={cat}>
+                  {cat}
+                </option>
+              )
+          )}
+        </Select>
+      </Show>
       <TabPanels>
         {categories.map((cat, index) =>
           index === 0 ? (
@@ -107,7 +123,7 @@ const CategoryTabs = () => {
                       boxSize={"4xs"}
                     />
                     <Text mt={3} fontWeight={"700"}>
-                      You don't have any notes
+                      No notes found...
                     </Text>
                   </VStack>
                 </Center>
@@ -137,9 +153,13 @@ const CategoryTabs = () => {
                     <Image
                       src={searchText ? NoSearchResultsSvg : NoNotesSvg}
                       alt="No notes"
-                      boxSize={"4xs"}
+                      boxSize={{ sm: "100px", lg: "4xs" }}
                     />
-                    <Text mt={3} fontWeight={"700"}>
+                    <Text
+                      mt={3}
+                      fontWeight={"700"}
+                      fontSize={{ sm: "10px", lg: "inherit" }}
+                    >
                       {searchText
                         ? "No search results found"
                         : "You don't have any notes"}
