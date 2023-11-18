@@ -39,7 +39,7 @@ const AddForm = () => {
 
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  const [category, setCategory] = useState(categories[0]);
+  const [category, setCategory] = useState(categories[1]);
   const [completed, setCompleted] = useState(false);
 
   const generateNewId = () => {
@@ -69,7 +69,7 @@ const AddForm = () => {
     // Reset the form state
     setTitle("");
     setText("");
-    setCategory(categories[0]);
+    setCategory(categories[1]);
     setCompleted(false);
 
     // Close the modal
@@ -118,11 +118,14 @@ const AddForm = () => {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                {categories.map((cat, index) => (
-                  <option key={index} value={cat}>
-                    {cat}
-                  </option>
-                ))}
+                {categories.map(
+                  (cat, index) =>
+                    index > 0 && (
+                      <option key={index} value={cat}>
+                        {cat}
+                      </option>
+                    )
+                )}
               </Select>
             </FormControl>
           </ModalBody>

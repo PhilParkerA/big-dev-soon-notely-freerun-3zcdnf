@@ -111,11 +111,14 @@ const EditForm = ({ note }: Props) => {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                {categories.map((cat, index) => (
-                  <option key={index} value={cat}>
-                    {cat}
-                  </option>
-                ))}
+                {categories.map(
+                  (cat, index) =>
+                    index > 0 && (
+                      <option key={index} value={cat}>
+                        {cat}
+                      </option>
+                    )
+                )}
               </Select>
             </FormControl>
           </ModalBody>

@@ -1,4 +1,5 @@
 const categories = [
+  "All",
   "Personal",
   "Work",
   "Study",
@@ -6,7 +7,6 @@ const categories = [
   "Travel",
   "Health",
   "Ideas",
-  "Development",
   "Miscellaneous",
 ];
 

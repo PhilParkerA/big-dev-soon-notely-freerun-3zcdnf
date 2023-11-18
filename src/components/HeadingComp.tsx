@@ -5,8 +5,8 @@ import { useCategory } from "../contexts/categoryContext";
 const HeadingComp = () => {
   const { selectedCategory } = useCategory();
   return (
-    <Heading fontFamily={"Montserrat"} fontWeight={"bold"}>
-      {categories[selectedCategory - 1] || "Your"} notes
+    <Heading fontFamily={"Montserrat"} fontWeight={"bold"} textAlign={{base: 'center', lg: 'start'}}>
+      {selectedCategory?categories[selectedCategory]:"Your"} notes
     </Heading>
   );
 };

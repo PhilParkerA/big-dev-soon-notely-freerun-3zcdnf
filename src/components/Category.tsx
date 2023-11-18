@@ -11,7 +11,7 @@ const Category = ({ category }: Props) => {
   return (
     <Button
       onClick={() =>
-        setSelectedCategory(categories.findIndex((c) => c === category)+1)
+        setSelectedCategory(categories.findIndex((c) => c === category))
       }
       size={"xs"}
       rounded={"xl"}
