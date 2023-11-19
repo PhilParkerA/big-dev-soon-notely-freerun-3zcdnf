@@ -8,6 +8,6 @@ const categories = [
   "Health",
   "Ideas",
   "Miscellaneous",
-];
+] as const;
 
 export default categories;

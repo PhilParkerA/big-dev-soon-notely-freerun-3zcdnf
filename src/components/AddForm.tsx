@@ -11,22 +11,43 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Text,
   Textarea,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { MdAdd } from "react-icons/md";
 import { v4 as uuidv4 } from "uuid";
 import categories from "../constants/categories";
-import { useNotes } from "../contexts/notesContext";
 import useNotesHook from "../hooks/useNotesHook";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const schema = z.object({
+  title: z
+    .string()
+    .min(3, { message: "Title must contain at least 3 characters" })
+    .max(40),
+  description: z
+    .string()
+    .min(0)
+    .max(250),
+  category: z.enum(categories, {
+    errorMap: () => ({ message: "Category is required." }),
+  }),
+});
+
+type FormData = z.infer<typeof schema>;
+
 const AddForm = () => {
-  const { notes } = useNotes();
   const { addNote } = useNotesHook();
   const [uniqueId, setUniqueId] = useState(uuidv4());
   const [hueRotation, setHueRotation] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const OverlayOne = () => (
     <ModalOverlay
@@ -37,43 +58,43 @@ const AddForm = () => {
   );
   const [overlay, setOverlay] = useState(<OverlayOne />);
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState(categories[1]);
-  const [completed, setCompleted] = useState(false);
-
   const generateNewId = () => {
     const newId = uuidv4();
     setUniqueId(newId);
   };
 
-  const handleSave = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
+
+  const onSubmit = (data: FieldValues) => {
     generateNewId();
-    if (notes) {
+    if (data) {
       const newNote = {
+        ...data,
         id: uniqueId,
-        title,
-        description,
-        category,
-        completed,
+        completed: false,
         date: new Date().toISOString().slice(0, 10),
       };
-
       addNote(newNote);
-      setTimeout(() => {
-        console.log("Updated notes:", notes);
-      }, 100);
-
-      console.log("Save note:", newNote);
     }
-    // Reset the form state
-    setTitle("");
-    setDescription("");
-    setCategory(categories[1]);
-    setCompleted(false);
 
-    // Close the modal
+    setTimeout(() => {
+      toast({
+        title: "Note added.",
+        description: data.title,
+        variant: "solid",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    }, 600);
+
     onClose();
+    reset();
   };
 
   return (
@@ -90,53 +111,62 @@ const AddForm = () => {
       </Button>
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         {overlay}
-        <ModalContent>
-          <ModalHeader>Add Note</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Title</FormLabel>
-              <Input
-                placeholder="Note title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Textarea
-                placeholder="Description..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Category</FormLabel>
-              <Select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                {categories.map(
-                  (cat, index) =>
-                    index > 0 && (
-                      <option key={index} value={cat}>
-                        {cat}
-                      </option>
-                    )
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalContent>
+            <ModalHeader>Add Note</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <FormControl>
+                <FormLabel>Title</FormLabel>
+                <Input {...register("title")} placeholder="Note title" />
+                {errors.title && (
+                  <Text color="red.300" mt={2}>
+                    {errors.title.message}
+                  </Text>
                 )}
-              </Select>
-            </FormControl>
-          </ModalBody>
+              </FormControl>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSave}>
-              Add
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
+              <FormControl mt={4}>
+                <FormLabel>Description</FormLabel>
+                <Textarea
+                  {...register("description")}
+                  placeholder="Description..."
+                />
+                {errors.description && (
+                  <Text color="red.300" mt={2}>
+                    {errors.description.message}
+                  </Text>
+                )}
+              </FormControl>
+
+              <FormControl mt={4}>
+                <FormLabel>Category</FormLabel>
+                <Select {...register("category")}>
+                  {categories.map(
+                    (cat, index) =>
+                      index > 0 && (
+                        <option key={index} value={cat}>
+                          {cat}
+                        </option>
+                      )
+                  )}
+                </Select>
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                disabled={!isValid}
+                type={"submit"}
+                colorScheme="blue"
+                mr={3}
+              >
+                Add
+              </Button>
+              <Button onClick={onClose}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </form>
       </Modal>
     </>
   );

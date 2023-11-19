@@ -12,25 +12,48 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Text,
   Textarea,
   Tooltip,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FaPencil } from "react-icons/fa6";
 import categories from "../constants/categories";
 import { useNotes } from "../contexts/notesContext";
 import useNotesHook, { Note } from "../hooks/useNotesHook";
+import { FieldValues, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { z } from "zod";
 
 interface Props {
   note: Note;
 }
+
+const schema = z.object({
+  title: z
+    .string()
+    .min(3, { message: "Title must contain at least 3 characters" }),
+  description: z
+    .string()
+    .min(0)
+    .max(250),
+  category: z.enum(categories, {
+    errorMap: () => ({ message: "Category is required." }),
+  }),
+});
+
+type FormData = z.infer<typeof schema>;
 
 const EditForm = ({ note }: Props) => {
   const { notes } = useNotes();
   const { updateNote } = useNotesHook();
   const [hueRotation, setHueRotation] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
+
 
   const OverlayOne = () => (
     <ModalOverlay
@@ -41,28 +64,28 @@ const EditForm = ({ note }: Props) => {
   );
   const [overlay, setOverlay] = useState(<OverlayOne />);
 
-  const [title, setTitle] = useState(note.title);
-  const [description, setDescription] = useState(note.description);
-  const [category, setCategory] = useState(note.category);
-  const [completed, setCompleted] = useState(note.completed);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const handleUpdate = () => {
-    if (notes) {
-      const updatedNote = {
-        ...note,
-        title,
-        description,
-        category,
-        completed,
-        date: new Date().toISOString().slice(0, 10),
-      };
-
+  const onSubmit = (data: FieldValues) => {
+    if (data) {
+      const updatedNote = { ...note, ...data };
       updateNote(updatedNote);
-
-      console.log("Updated note:", updatedNote);
     }
-
-    // Close the modal
+    setTimeout(() => {
+      toast({
+        title: "Note updated.",
+        description: note.title,
+        variant: "solid",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    }, 600);
     onClose();
   };
 
@@ -84,53 +107,67 @@ const EditForm = ({ note }: Props) => {
       </Tooltip>
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         {overlay}
-        <ModalContent>
-          <ModalHeader>Edit Note</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Title</FormLabel>
-              <Input
-                placeholder="Note title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Textarea
-                placeholder="Description..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Category</FormLabel>
-              <Select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                {categories.map(
-                  (cat, index) =>
-                    index > 0 && (
-                      <option key={index} value={cat}>
-                        {cat}
-                      </option>
-                    )
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalContent>
+            <ModalHeader>Edit Note</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <FormControl>
+                <FormLabel>Title</FormLabel>
+                <Input
+                  {...register("title")}
+                  defaultValue={note.title}
+                  placeholder="Note title"
+                />
+                {errors.title && (
+                  <Text color="red.300" mt={2}>
+                    {errors.title.message}
+                  </Text>
                 )}
-              </Select>
-            </FormControl>
-          </ModalBody>
+              </FormControl>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleUpdate}>
-              Update
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
+              <FormControl mt={4}>
+                <FormLabel>Description</FormLabel>
+                <Textarea
+                  {...register("description")}
+                  defaultValue={note.description}
+                  placeholder="Description..."
+                />
+                {errors.description && (
+                  <Text color="red.300" mt={2}>
+                    {errors.description.message}
+                  </Text>
+                )}
+              </FormControl>
+
+              <FormControl mt={4}>
+                <FormLabel>Category</FormLabel>
+                <Select {...register("category")} defaultValue={note.category}>
+                  {categories.map(
+                    (cat, index) =>
+                      index > 0 && (
+                        <option key={index} value={cat}>
+                          {cat}
+                        </option>
+                      )
+                  )}
+                </Select>
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                disabled={!isValid}
+                type={"submit"}
+                colorScheme="blue"
+                mr={3}
+              >
+                Update
+              </Button>
+              <Button onClick={onClose}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </form>
       </Modal>
     </>
   );
