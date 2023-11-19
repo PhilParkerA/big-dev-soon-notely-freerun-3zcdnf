@@ -36,10 +36,7 @@ const schema = z.object({
   title: z
     .string()
     .min(3, { message: "Title must contain at least 3 characters" }),
-  description: z
-    .string()
-    .min(0)
-    .max(250),
+  description: z.string().min(0).max(250),
   category: z.enum(categories, {
     errorMap: () => ({ message: "Category is required." }),
   }),
@@ -53,7 +50,6 @@ const EditForm = ({ note }: Props) => {
   const [hueRotation, setHueRotation] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
-
 
   const OverlayOne = () => (
     <ModalOverlay
@@ -127,7 +123,7 @@ const EditForm = ({ note }: Props) => {
               </FormControl>
 
               <FormControl mt={4}>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Description (optional)</FormLabel>
                 <Textarea
                   {...register("description")}
                   defaultValue={note.description}

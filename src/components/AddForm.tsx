@@ -21,7 +21,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { MdAdd } from "react-icons/md";
 import { v4 as uuidv4 } from "uuid";
 import categories from "../constants/categories";
-import useNotesHook from "../hooks/useNotesHook";
+import useNotesHook, { Note } from "../hooks/useNotesHook";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -31,10 +31,7 @@ const schema = z.object({
     .string()
     .min(3, { message: "Title must contain at least 3 characters" })
     .max(40),
-  description: z
-    .string()
-    .min(0)
-    .max(250),
+  description: z.string().min(0).max(250),
   category: z.enum(categories, {
     errorMap: () => ({ message: "Category is required." }),
   }),
@@ -73,8 +70,11 @@ const AddForm = () => {
   const onSubmit = (data: FieldValues) => {
     generateNewId();
     if (data) {
+      //Didn't use spread operator because of an error
       const newNote = {
-        ...data,
+        title: data.title,
+        description: data.description,
+        category: data.category,
         id: uniqueId,
         completed: false,
         date: new Date().toISOString().slice(0, 10),
@@ -127,7 +127,7 @@ const AddForm = () => {
               </FormControl>
 
               <FormControl mt={4}>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Description (optional)</FormLabel>
                 <Textarea
                   {...register("description")}
                   placeholder="Description..."
