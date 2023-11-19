@@ -1,5 +1,4 @@
 import {
-  Box,
   Center,
   Hide,
   Image,
@@ -15,7 +14,6 @@ import {
   VStack,
   Wrap,
   WrapItem,
-  useBreakpointValue,
 } from "@chakra-ui/react";
 import NoNotesSvg from "../assets/no-notes-illustration.svg";
 import NoSearchResultsSvg from "../assets/no-search-results-illustration.svg";
@@ -36,8 +34,6 @@ const CategoryTabs = () => {
   const handleTabChange = (category: number) => {
     setSelectedCategory(category);
   };
-
-  const isTabListVisible = useBreakpointValue({ base: false, lg: true });
 
   const includesSearch = (note: Note) => {
     if (note) {
@@ -62,16 +58,36 @@ const CategoryTabs = () => {
       variant={"unstyled"}
       index={selectedCategory}
       onChange={handleTabChange}
+      
     >
       <Hide below="md">
-        <TabList>
+        <Wrap as={TabList}>
           {categories.map((cat, index) => (
-            <Tab key={index}>{cat}</Tab>
+            <WrapItem
+              display={{ sm: "flex" }}
+              width={{ sm: 100, lg: "max-content" }}
+              justifyContent={"center"}
+            >
+              <Tab
+              justifySelf={'center'}
+                key={index}
+                _selected={{
+                  color: "brand.500",
+                  fontWeight: "700",
+                  borderBottom: { sm: "2px", lg: "none" },
+                }}
+                _hover={{
+                  color: "brand.500",
+                }}
+              >
+                {cat}
+              </Tab>
+            </WrapItem>
           ))}
-        </TabList>
+        </Wrap>
         <TabIndicator
           mt="-1.5px"
-          height="2px"
+          height={{ base: 0, lg: "2px" }}
           bg="brand.500"
           borderRadius="1px"
         />

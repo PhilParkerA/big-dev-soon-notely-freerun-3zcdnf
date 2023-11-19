@@ -16,6 +16,7 @@ const Category = ({ category }: Props) => {
       size={"xs"}
       rounded={"xl"}
       px={3}
+      fontSize={{base: 10, sm: "xs"}}
       bg={useColorModeValue("brand.500", "brand.100")}
       color={useColorModeValue("white", "brand.700")}
       _hover={{

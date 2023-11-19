@@ -1,5 +1,4 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
-import { useState } from "react";
 import CategoryTabs from "./components/CategoryTabs";
 import Footer from "./components/Footer";
 import HeadingComp from "./components/HeadingComp";
@@ -11,7 +10,7 @@ function App() {
       <NavBar/>
       <Box
         mx={"auto"}
-        px={10}
+        px={{base: 2, sm: 10}}
         my={"50px"}
         maxW={"1600px"}
         className="main-body"

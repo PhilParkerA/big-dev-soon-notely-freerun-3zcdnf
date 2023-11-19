@@ -47,7 +47,7 @@ function Footer() {
     <Box
       bg={useColorModeValue("gray.100", "gray.800")}
       width={"100%"}
-      height={"70px"}
+      height={{base: "120px",md: "70px"}}
     >
       <Container   
     maxW={"1600px"}
@@ -59,7 +59,7 @@ function Footer() {
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
       >
-        <Text>© 2023 Parker Ltd. All rights reserved</Text>
+        <Text fontSize={{base: 11, sm: "inherit"}}>© 2023 Parker Ltd. All rights reserved</Text>
         <Stack direction={"row"} spacing={6}>
           <SocialButton label={"Twitter"} href={"#"}>
             <FaTwitter />

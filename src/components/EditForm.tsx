@@ -27,7 +27,7 @@ interface Props {
 }
 
 const EditForm = ({ note }: Props) => {
-  const { notes, setNotes } = useNotes();
+  const { notes } = useNotes();
   const { updateNote } = useNotesHook();
   const [hueRotation, setHueRotation] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -70,6 +70,7 @@ const EditForm = ({ note }: Props) => {
     <>
       <Tooltip placement="top" label="Edit">
         <IconButton
+          size={{ base: "sm", sm: "md" }}
           isRound={true}
           variant="solid"
           bg={"transparent"}

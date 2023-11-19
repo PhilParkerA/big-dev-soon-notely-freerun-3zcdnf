@@ -10,7 +10,7 @@ const ThemeSwitch = () => {
       isRound={true}
       variant="solid"
       bg={"transparent"}
-      aria-label="Done"
+      aria-label="Change Theme"
       icon={colorMode === "dark" ? <MdDarkMode /> : <MdOutlineWbSunny />}
     />
   );

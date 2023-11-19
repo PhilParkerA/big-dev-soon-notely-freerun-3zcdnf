@@ -57,6 +57,8 @@ const NoteCard = ({ note }: Props) => {
           <HStack spacing={0}>
             <Tooltip placement="top" label="Check">
               <IconButton
+                // fontSize={{base: 10, sm: "inherit"}}
+                size={{ base: "sm", sm: "md" }}
                 isRound={true}
                 variant="solid"
                 bg={"transparent"}
@@ -68,6 +70,7 @@ const NoteCard = ({ note }: Props) => {
 
             <Tooltip placement="top" label="Delete">
               <IconButton
+                size={{ base: "sm", sm: "md" }}
                 onClick={handleDelete}
                 isRound={true}
                 variant="solid"
@@ -78,10 +81,14 @@ const NoteCard = ({ note }: Props) => {
             </Tooltip>
           </HStack>
         </HStack>
-        <Heading fontFamily={"Montserrat"} fontWeight={"bold"} fontSize={"2xl"}>
+        <Heading
+          fontFamily={"Montserrat"}
+          fontWeight={"bold"}
+          fontSize={{ base: "x;", sm: "2xl" }}
+        >
           {note.title}
         </Heading>
-        <Text mt={2} fontSize={"sm"}>
+        <Text mt={2} fontSize={{ base: 10, sm: "sm" }}>
           {note.description}
         </Text>
         <Text
