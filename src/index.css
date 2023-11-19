@@ -54,6 +54,10 @@ body {
   }
 }
 
+.hidden{
+  display: none;
+}
+
 /* .note-card:hover {
   transition: scale(1.03) !important;
   transition: transform .15s ease-in!important;

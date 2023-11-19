@@ -64,13 +64,14 @@ const CategoryTabs = () => {
         <Wrap as={TabList}>
           {categories.map((cat, index) => (
             <WrapItem
+            key={index}
               display={{ sm: "flex" }}
               width={{ sm: 100, lg: "max-content" }}
               justifyContent={"center"}
             >
               <Tab
               justifySelf={'center'}
-                key={index}
+                
                 _selected={{
                   color: "brand.500",
                   fontWeight: "700",

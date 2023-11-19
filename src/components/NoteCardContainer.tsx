@@ -10,11 +10,11 @@ const NoteCardContainer = ({ children }: Props) => {
     <Box
       cursor={"pointer"}
       overflow="hidden"
-      rounded={'lg'}
-      className="note-card"
+      rounded={"lg"}
+      className={'note-card'}
       _hover={{
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        backgroundColor: useColorModeValue("gray.200","gray.800"),
+        backgroundColor: useColorModeValue("gray.200", "gray.800"),
         borderRadius: "8px",
         opacity: 1,
         transition:
