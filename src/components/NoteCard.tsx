@@ -8,9 +8,9 @@ import {
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { MouseEvent, useRef } from "react";
-import { MdCheckBoxOutlineBlank } from "react-icons/md";
-import { Note } from "../hooks/useNotesHook";
+import { MouseEvent, useRef, useState } from "react";
+import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
+import useNotesHook, { Note } from "../hooks/useNotesHook";
 import Category from "./Category";
 import DeleteForm from "./DeleteForm";
 import EditForm from "./EditForm";
@@ -20,6 +20,8 @@ interface Props {
 }
 
 const NoteCard = ({ note }: Props) => {
+  const { updateNote } = useNotesHook();
+  const [isCompleted, setIsCompleted] = useState(false);
 
   // Create a ref for the button
   const otherButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -53,7 +55,12 @@ const NoteCard = ({ note }: Props) => {
                 variant="solid"
                 bg={"transparent"}
                 aria-label="Done"
-                icon={<MdCheckBoxOutlineBlank />}
+                icon={isCompleted ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
+                onClick={() => {
+                  setIsCompleted(!isCompleted);
+                  const updatedNote = { ...note, completed: !note.completed };
+                  updateNote(updatedNote);
+                }}
               />
             </Tooltip>
             <EditForm note={note} />

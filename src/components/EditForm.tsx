@@ -18,13 +18,12 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { FaPencil } from "react-icons/fa6";
 import categories from "../constants/categories";
-import { useNotes } from "../contexts/notesContext";
 import useNotesHook, { Note } from "../hooks/useNotesHook";
-import { FieldValues, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";
 
@@ -36,7 +35,7 @@ const schema = z.object({
   title: z
     .string()
     .min(3, { message: "Title must contain at least 3 characters" }),
-  description: z.string().min(0).max(250),
+  description: z.string().min(0).max(200),
   category: z.enum(categories, {
     errorMap: () => ({ message: "Category is required." }),
   }),
@@ -45,7 +44,6 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const EditForm = ({ note }: Props) => {
-  const { notes } = useNotes();
   const { updateNote } = useNotesHook();
   const [hueRotation, setHueRotation] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -63,7 +61,6 @@ const EditForm = ({ note }: Props) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isValid },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 

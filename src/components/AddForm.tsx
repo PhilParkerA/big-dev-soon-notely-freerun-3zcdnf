@@ -21,7 +21,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { MdAdd } from "react-icons/md";
 import { v4 as uuidv4 } from "uuid";
 import categories from "../constants/categories";
-import useNotesHook, { Note } from "../hooks/useNotesHook";
+import useNotesHook from "../hooks/useNotesHook";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -31,7 +31,7 @@ const schema = z.object({
     .string()
     .min(3, { message: "Title must contain at least 3 characters" })
     .max(40),
-  description: z.string().min(0).max(250),
+  description: z.string().min(0).max(200),
   category: z.enum(categories, {
     errorMap: () => ({ message: "Category is required." }),
   }),

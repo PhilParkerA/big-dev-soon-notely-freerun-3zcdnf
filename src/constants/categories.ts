@@ -3,6 +3,7 @@ const categories = [
   "Personal",
   "Work",
   "Study",
+  "Church",
   "Shopping",
   "Travel",
   "Health",

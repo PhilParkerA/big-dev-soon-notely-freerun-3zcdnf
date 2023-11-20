@@ -2,7 +2,6 @@ import {
   Center,
   Hide,
   Image,
-  Select,
   Show,
   Tab,
   TabIndicator,
@@ -25,11 +24,32 @@ import { Note } from "../hooks/useNotesHook";
 import NoteCard from "./NoteCard";
 import NoteCardContainer from "./NoteCardContainer";
 import NotesGrid from "./NotesGrid";
+import ShowCompletedCheckBox from "./ShowCompletedCheckBox";
+import TabSelect from "./TabSelect";
+import { useIsChecked } from "../contexts/IsCheckedContext";
+import { useEffect, useState } from "react";
 
 const CategoryTabs = () => {
-  const { notes } = useNotes();
+  const { notes, setNotes } = useNotes();
   const { searchText } = useSearchText();
   const { selectedCategory, setSelectedCategory } = useCategory();
+
+  const { isChecked } = useIsChecked();
+
+  const [originalNotes, setOriginalNotes] = useState(notes);
+
+  useEffect(() => {
+    setOriginalNotes(notes);
+  }, [isChecked ? null : notes]);
+
+  useEffect(() => {
+    if (originalNotes)
+      setNotes((prevNotes) =>
+        isChecked
+          ? prevNotes?.filter((n) => n.completed === true)
+          : originalNotes
+      );
+  }, [isChecked]);
 
   const handleTabChange = (category: number) => {
     setSelectedCategory(category);
@@ -58,20 +78,18 @@ const CategoryTabs = () => {
       variant={"unstyled"}
       index={selectedCategory}
       onChange={handleTabChange}
-      
     >
       <Hide below="md">
         <Wrap as={TabList}>
           {categories.map((cat, index) => (
             <WrapItem
-            key={index}
+              key={index}
               display={{ sm: "flex" }}
               width={{ sm: 100, lg: "max-content" }}
               justifyContent={"center"}
             >
               <Tab
-              justifySelf={'center'}
-                
+                justifySelf={"center"}
                 _selected={{
                   color: "brand.500",
                   fontWeight: "700",
@@ -94,26 +112,13 @@ const CategoryTabs = () => {
         />
       </Hide>
       <Show below="md">
-        <Select
-          placeholder="All"
-          onChange={(e) =>
-            setSelectedCategory(
-              e.target.value
-                ? categories.findIndex((c) => c === e.target.value)
-                : 0
-            )
-          }
-        >
-          {categories.map(
-            (cat, index) =>
-              index > 0 && (
-                <option key={index} value={cat}>
-                  {cat}
-                </option>
-              )
-          )}
-        </Select>
+        <TabSelect />
       </Show>
+      <Hide above="md">
+        <Center>
+          <ShowCompletedCheckBox />
+        </Center>
+      </Hide>
       <TabPanels>
         {categories.map((cat, index) =>
           index === 0 ? (
@@ -140,7 +145,9 @@ const CategoryTabs = () => {
                       boxSize={"4xs"}
                     />
                     <Text mt={3} fontWeight={"700"}>
-                      No notes found...
+                      {searchText
+                        ? "No notes found ..."
+                        : "You don't have any notes"}
                     </Text>
                   </VStack>
                 </Center>
