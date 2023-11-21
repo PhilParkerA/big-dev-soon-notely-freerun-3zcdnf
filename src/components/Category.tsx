@@ -10,6 +10,7 @@ const Category = ({ category }: Props) => {
   const { setSelectedCategory } = useCategory();
   return (
     <Button
+    className="card-category-button"
       onClick={() =>
         setSelectedCategory(categories.findIndex((c) => c === category))
       }

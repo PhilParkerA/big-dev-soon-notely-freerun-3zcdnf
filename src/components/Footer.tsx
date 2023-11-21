@@ -47,10 +47,12 @@ function Footer() {
     <Box
       bg={useColorModeValue("gray.100", "gray.800")}
       width={"100%"}
-      height={{base: "120px",md: "70px"}}
+      height={{ base: "120px", md: "70px" }}
+      maxW={"1920px"}
+      mx={'auto'}
     >
-      <Container   
-    maxW={"1600px"}
+      <Container
+        maxW={"1600px"}
         as={Stack}
         py={4}
         px={10}
@@ -59,7 +61,9 @@ function Footer() {
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
       >
-        <Text fontSize={{base: 11, sm: "inherit"}}>© 2023 Parker Ltd. All rights reserved</Text>
+        <Text fontSize={{ base: 11, sm: "inherit" }}>
+          © 2023 Parker Ltd. All rights reserved
+        </Text>
         <Stack direction={"row"} spacing={6}>
           <SocialButton label={"Twitter"} href={"#"}>
             <FaTwitter />

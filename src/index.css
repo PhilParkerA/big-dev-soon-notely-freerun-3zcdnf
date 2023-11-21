@@ -8,8 +8,35 @@ body {
   min-height: calc(100vh - 100px - 70px - 70px) !important;
 }
 
-.note-card {
+.note-card-container {
   animation: scaleAndTranslate 0.5s ease-in-out forwards;
+}
+
+.search-box {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  animation: slideDown 0.5s ease-in-out forwards!important;
+}
+
+.delete-note {
+  animation: translateAndVanish 0.5s ease-in-out forwards;
+}
+
+.hidden{
+  display: none;
+}
+
+.completed-note p, .completed-note h2, .completed-note svg {
+  color: gray;
+  text-decoration: line-through;
+}
+
+.completed-note .card-category-button{
+  background-color: gray;
+  color: rgb(173, 173, 173);
+}
+
+.completed-note .note-card{
+  background-color: rgba(47, 47, 47, 0.1);
 }
 
 @keyframes scaleAndTranslate {
@@ -23,11 +50,6 @@ body {
   }
 }
 
-.search-box {
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  animation: slideDown 0.5s ease-in-out forwards!important;
-}
-
 @keyframes slideDown {
   0% {
     transform: translateY(-90px);
@@ -37,10 +59,6 @@ body {
     transform: translateY(0);
     opacity: 1;
   }
-}
-
-.delete-note {
-  animation: translateAndVanish 0.5s ease-in-out forwards;
 }
 
 @keyframes translateAndVanish {
@@ -53,33 +71,3 @@ body {
     opacity: 0;
   }
 }
-
-.hidden{
-  display: none;
-}
-
-/* .note-card:hover {
-  transition: scale(1.03) !important;
-  transition: transform .15s ease-in!important;
-} */
-
-/* .note-card {
-  animation: scaleAndTranslate 0.5s ease-in-out forwards;
-}
-
-
-@keyframes scaleAndTranslate {
-  0% {
-    transform: translateX(-100px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0px);
-    opacity: 1;
-  }
-}
-
-.note-card:hover {
-  transform: scale(1.03)!important;
-  transition: transform .15s ease-in, box-shadow .5s ease-in, border-radius .2s ease-in, background-color .2s ease-in !important;
-} */

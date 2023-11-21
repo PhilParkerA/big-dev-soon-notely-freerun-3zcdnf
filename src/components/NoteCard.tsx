@@ -8,7 +8,7 @@ import {
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { MouseEvent, useRef, useState } from "react";
+import { MouseEvent, useRef } from "react";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 import useNotesHook, { Note } from "../hooks/useNotesHook";
 import Category from "./Category";
@@ -21,9 +21,8 @@ interface Props {
 
 const NoteCard = ({ note }: Props) => {
   const { updateNote } = useNotesHook();
-  const [isCompleted, setIsCompleted] = useState(false);
 
-  // Create a ref for the button
+  // Ref for external button
   const otherButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const initiateDelete = (event: MouseEvent<HTMLButtonElement>) => {
@@ -31,19 +30,21 @@ const NoteCard = ({ note }: Props) => {
       event.currentTarget.parentElement?.parentElement?.parentElement
         ?.parentElement?.parentElement;
     if (cardNode) {
-      cardNode?.classList.replace("note-card", "delete-note");
+      cardNode?.classList.replace("note-card-container", "delete-note");
     }
   };
 
   return (
-    <Center>
+    <Center className={note.completed?"completed-note":""}>
+      
       <Box
         p={5}
         w={"100%"}
-        height={"240px"}
+        h={{ base: "200px", sm: "300px" }}
         bg={useColorModeValue("rgba(255,255,255,0.3)", "rgba(32,32,32,0.1)")}
         boxShadow={"lg"}
         pos={"relative"}
+        className="note-card"
       >
         <HStack justifyContent={"space-between"} mb={5}>
           <Category category={note.category} />
@@ -55,9 +56,8 @@ const NoteCard = ({ note }: Props) => {
                 variant="solid"
                 bg={"transparent"}
                 aria-label="Done"
-                icon={isCompleted ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
+                icon={note.completed ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
                 onClick={() => {
-                  setIsCompleted(!isCompleted);
                   const updatedNote = { ...note, completed: !note.completed };
                   updateNote(updatedNote);
                 }}
@@ -75,20 +75,24 @@ const NoteCard = ({ note }: Props) => {
           </HStack>
         </HStack>
         <Heading
+          isTruncated
           fontFamily={"Montserrat"}
           fontWeight={"bold"}
           fontSize={{ base: "x;", sm: "2xl" }}
         >
           {note.title}
         </Heading>
-        <Text mt={2} fontSize={{ base: 10, sm: "sm" }}>
+        <Text
+          mt={2}
+          fontSize={{ base: 10, sm: "sm" }}
+        >
           {note.description}
         </Text>
         <Text
           color={"gray"}
           position={"absolute"}
           right={5}
-          bottom={4}
+          bottom={{base: 2,sm: 4}}
           fontSize={"2xs"}
         >
           {note.date}

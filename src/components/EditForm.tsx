@@ -34,7 +34,8 @@ interface Props {
 const schema = z.object({
   title: z
     .string()
-    .min(3, { message: "Title must contain at least 3 characters" }),
+    .min(3, { message: "Title must contain at least 3 characters" })
+    .max(50),
   description: z.string().min(0).max(200),
   category: z.enum(categories, {
     errorMap: () => ({ message: "Category is required." }),
@@ -109,8 +110,10 @@ const EditForm = ({ note }: Props) => {
                 <FormLabel>Title</FormLabel>
                 <Input
                   {...register("title")}
+                  autoFocus
                   defaultValue={note.title}
                   placeholder="Note title"
+                  maxLength={50}
                 />
                 {errors.title && (
                   <Text color="red.300" mt={2}>
@@ -124,6 +127,7 @@ const EditForm = ({ note }: Props) => {
                 <Textarea
                   {...register("description")}
                   defaultValue={note.description}
+                  maxLength={200}
                   placeholder="Description..."
                 />
                 {errors.description && (

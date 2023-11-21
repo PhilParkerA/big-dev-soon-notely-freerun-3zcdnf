@@ -1,7 +1,6 @@
 import {
   Center,
   Hide,
-  Image,
   Show,
   Tab,
   TabIndicator,
@@ -9,25 +8,22 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
-  VStack,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import NoNotesSvg from "../assets/no-notes-illustration.svg";
-import NoSearchResultsSvg from "../assets/no-search-results-illustration.svg";
+import { useEffect, useState } from "react";
 import categories from "../constants/categories";
+import { useIsChecked } from "../contexts/IsCheckedContext";
 import { useCategory } from "../contexts/categoryContext";
 import { useNotes } from "../contexts/notesContext";
 import { useSearchText } from "../contexts/searchTextContext";
 import { Note } from "../hooks/useNotesHook";
+import NoNotes from "./NoNotes";
 import NoteCard from "./NoteCard";
 import NoteCardContainer from "./NoteCardContainer";
 import NotesGrid from "./NotesGrid";
 import ShowCompletedCheckBox from "./ShowCompletedCheckBox";
 import TabSelect from "./TabSelect";
-import { useIsChecked } from "../contexts/IsCheckedContext";
-import { useEffect, useState } from "react";
 
 const CategoryTabs = () => {
   const { notes, setNotes } = useNotes();
@@ -37,19 +33,28 @@ const CategoryTabs = () => {
   const { isChecked } = useIsChecked();
 
   const [originalNotes, setOriginalNotes] = useState(notes);
+  const [updatingNotes, setUpdatingNotes] = useState(false);
+  const [unCompletedNotes, setUnCompletedNotes] = useState(0);
 
   useEffect(() => {
     setOriginalNotes(notes);
   }, [isChecked ? null : notes]);
 
   useEffect(() => {
-    if (originalNotes)
-      setNotes((prevNotes) =>
-        isChecked
-          ? prevNotes?.filter((n) => n.completed === true)
-          : originalNotes
-      );
-  }, [isChecked]);
+    if (notes === originalNotes) {
+      if (originalNotes && !updatingNotes) {
+        setUpdatingNotes(true);
+        setNotes((prevNotes) =>
+          isChecked
+            ? prevNotes?.filter((n) => n.completed === true)
+            : originalNotes
+        );
+        setUpdatingNotes(false);
+      }
+    } else {
+      //This is where you left off
+    }
+  }, [isChecked, notes]);
 
   const handleTabChange = (category: number) => {
     setSelectedCategory(category);
@@ -127,30 +132,31 @@ const CategoryTabs = () => {
               {notes &&
               notes?.filter((note) => includesSearch(note)).length > 0 ? (
                 <NotesGrid>
-                  {notes?.map(
-                    (note) =>
-                      includesSearch(note) && (
-                        <NoteCardContainer key={note.id}>
-                          <NoteCard note={note} />
-                        </NoteCardContainer>
-                      )
-                  )}
+                  {notes
+                    ?.map(
+                      (note) =>
+                        includesSearch(note) &&
+                        note.completed !== true && (
+                          <NoteCardContainer key={note.id}>
+                            <NoteCard note={note} key={note.id} />
+                          </NoteCardContainer>
+                        )
+                    )
+                    .reverse()}
+                  {notes
+                    ?.map(
+                      (note) =>
+                        includesSearch(note) &&
+                        note.completed === true && (
+                          <NoteCardContainer key={note.id}>
+                            <NoteCard note={note} key={note.id} />
+                          </NoteCardContainer>
+                        )
+                    )
+                    .reverse()}
                 </NotesGrid>
               ) : (
-                <Center height={"50vh"}>
-                  <VStack>
-                    <Image
-                      src={searchText ? NoSearchResultsSvg : NoNotesSvg}
-                      alt="No notes"
-                      boxSize={"4xs"}
-                    />
-                    <Text mt={3} fontWeight={"700"}>
-                      {searchText
-                        ? "No notes found ..."
-                        : "You don't have any notes"}
-                    </Text>
-                  </VStack>
-                </Center>
+                <NoNotes />
               )}
             </TabPanel>
           ) : (
@@ -172,24 +178,7 @@ const CategoryTabs = () => {
                   )}
                 </NotesGrid>
               ) : (
-                <Center height={"50vh"}>
-                  <VStack>
-                    <Image
-                      src={searchText ? NoSearchResultsSvg : NoNotesSvg}
-                      alt="No notes"
-                      boxSize={{ sm: "100px", lg: "4xs" }}
-                    />
-                    <Text
-                      mt={3}
-                      fontWeight={"700"}
-                      fontSize={{ sm: "10px", lg: "inherit" }}
-                    >
-                      {searchText
-                        ? "No search results found"
-                        : "You don't have any notes"}
-                    </Text>
-                  </VStack>
-                </Center>
+                <NoNotes />
               )}
             </TabPanel>
           )

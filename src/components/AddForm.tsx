@@ -118,7 +118,12 @@ const AddForm = () => {
             <ModalBody pb={6}>
               <FormControl>
                 <FormLabel>Title</FormLabel>
-                <Input {...register("title")} placeholder="Note title" />
+                <Input
+                  {...register("title")}
+                  autoFocus
+                  placeholder="Note title"
+                  maxLength={50}
+                />
                 {errors.title && (
                   <Text color="red.300" mt={2}>
                     {errors.title.message}
@@ -131,6 +136,7 @@ const AddForm = () => {
                 <Textarea
                   {...register("description")}
                   placeholder="Description..."
+                  maxLength={200}
                 />
                 {errors.description && (
                   <Text color="red.300" mt={2}>
