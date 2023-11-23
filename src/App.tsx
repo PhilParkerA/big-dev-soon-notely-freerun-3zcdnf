@@ -1,5 +1,5 @@
 import { Box, Flex, Show, Spacer, useColorModeValue } from "@chakra-ui/react";
-import CategoryTabs from "./components/CategoryTabs";
+import NotesDisplay from "./components/NotesDisplay";
 import Footer from "./components/Footer";
 import HeadingComp from "./components/HeadingComp";
 import NavBar from "./components/NavBar";
@@ -27,7 +27,7 @@ function App() {
             <ShowCompletedCheckBox />
           </Show>
         </Flex>
-        <CategoryTabs />
+        <NotesDisplay />
       </Box>
       <Footer />
     </Box>

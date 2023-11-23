@@ -16,10 +16,9 @@ import { useIsChecked } from "../contexts/IsCheckedContext";
 import { useCategory } from "../contexts/categoryContext";
 import { useNotes } from "../contexts/notesContext";
 import useSearch from "../hooks/useSearch";
+import AllNotes from "./AllNotes";
+import CategoryNotes from "./CategoryNotes";
 import NoNotes from "./NoNotes";
-import NoteCard from "./NoteCard";
-import NoteCardContainer from "./NoteCardContainer";
-import NotesGrid from "./NotesGrid";
 import ShowCompletedCheckBox from "./ShowCompletedCheckBox";
 import TabSelect from "./TabSelect";
 
@@ -27,8 +26,6 @@ const CategoryTabs = () => {
   const { notes } = useNotes();
   const { includesSearch } = useSearch();
   const { selectedCategory, setSelectedCategory } = useCategory();
-
-  const { isChecked } = useIsChecked();
 
   const handleTabChange = (category: number) => {
     setSelectedCategory(category);
@@ -88,31 +85,7 @@ const CategoryTabs = () => {
             <TabPanel key={index}>
               {notes &&
               notes?.filter((note) => includesSearch(note)).length > 0 ? (
-                <NotesGrid>
-                  {!isChecked &&
-                    notes
-                      ?.map(
-                        (note) =>
-                          includesSearch(note) &&
-                          note.completed !== true && (
-                            <NoteCardContainer key={note.id}>
-                              <NoteCard note={note} key={note.id} />
-                            </NoteCardContainer>
-                          )
-                      )
-                      .reverse()}
-                  {notes
-                    ?.map(
-                      (note) =>
-                        includesSearch(note) &&
-                        note.completed === true && (
-                          <NoteCardContainer key={note.id}>
-                            <NoteCard note={note} key={note.id} />
-                          </NoteCardContainer>
-                        )
-                    )
-                    .reverse()}
-                </NotesGrid>
+                <AllNotes />
               ) : (
                 <NoNotes />
               )}
@@ -124,33 +97,7 @@ const CategoryTabs = () => {
               notes?.filter(
                 (note) => includesSearch(note) && note.category === cat
               ).length > 0 ? (
-                <NotesGrid>
-                  {!isChecked &&
-                    notes
-                      ?.map(
-                        (note) =>
-                          note.category === cat &&
-                          includesSearch(note) &&
-                          note.completed !== true && (
-                            <NoteCardContainer key={note.id}>
-                              <NoteCard note={note} />
-                            </NoteCardContainer>
-                          )
-                      )
-                      .reverse()}
-                  {notes
-                    ?.map(
-                      (note) =>
-                        note.category === cat &&
-                        includesSearch(note) &&
-                        note.completed === true && (
-                          <NoteCardContainer key={note.id}>
-                            <NoteCard note={note} />
-                          </NoteCardContainer>
-                        )
-                    )
-                    .reverse()}
-                </NotesGrid>
+                <CategoryNotes category={cat} />
               ) : (
                 <NoNotes />
               )}
