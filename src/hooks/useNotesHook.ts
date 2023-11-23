@@ -29,7 +29,7 @@ const useNotesHook = () => {
   const updateNote = (note: Note) => {
     setNotes((prevNotes) =>
       prevNotes.map((n) => (n.id === note.id ? note : n))
-    );
+    )
   };
 
   const deleteNote = (note: Note) => {

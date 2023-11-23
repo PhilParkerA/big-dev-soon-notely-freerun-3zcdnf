@@ -11,13 +11,11 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import categories from "../constants/categories";
 import { useIsChecked } from "../contexts/IsCheckedContext";
 import { useCategory } from "../contexts/categoryContext";
 import { useNotes } from "../contexts/notesContext";
-import { useSearchText } from "../contexts/searchTextContext";
-import { Note } from "../hooks/useNotesHook";
+import useSearch from "../hooks/useSearch";
 import NoNotes from "./NoNotes";
 import NoteCard from "./NoteCard";
 import NoteCardContainer from "./NoteCardContainer";
@@ -26,55 +24,14 @@ import ShowCompletedCheckBox from "./ShowCompletedCheckBox";
 import TabSelect from "./TabSelect";
 
 const CategoryTabs = () => {
-  const { notes, setNotes } = useNotes();
-  const { searchText } = useSearchText();
+  const { notes } = useNotes();
+  const { includesSearch } = useSearch();
   const { selectedCategory, setSelectedCategory } = useCategory();
 
   const { isChecked } = useIsChecked();
 
-  const [originalNotes, setOriginalNotes] = useState(notes);
-  const [updatingNotes, setUpdatingNotes] = useState(false);
-  const [unCompletedNotes, setUnCompletedNotes] = useState(0);
-
-  useEffect(() => {
-    setOriginalNotes(notes);
-  }, [isChecked ? null : notes]);
-
-  useEffect(() => {
-    if (notes === originalNotes) {
-      if (originalNotes && !updatingNotes) {
-        setUpdatingNotes(true);
-        setNotes((prevNotes) =>
-          isChecked
-            ? prevNotes?.filter((n) => n.completed === true)
-            : originalNotes
-        );
-        setUpdatingNotes(false);
-      }
-    } else {
-      //This is where you left off
-    }
-  }, [isChecked, notes]);
-
   const handleTabChange = (category: number) => {
     setSelectedCategory(category);
-  };
-
-  const includesSearch = (note: Note) => {
-    if (note) {
-      const titleIncludesSearch =
-        searchText &&
-        note.title &&
-        note.title.toLowerCase().includes(searchText.toLowerCase());
-      const descriptionIncludesSearch =
-        searchText &&
-        note.description &&
-        note.description.toLowerCase().includes(searchText.toLowerCase());
-
-      return searchText
-        ? titleIncludesSearch || descriptionIncludesSearch
-        : true;
-    }
   };
 
   return (
@@ -132,17 +89,18 @@ const CategoryTabs = () => {
               {notes &&
               notes?.filter((note) => includesSearch(note)).length > 0 ? (
                 <NotesGrid>
-                  {notes
-                    ?.map(
-                      (note) =>
-                        includesSearch(note) &&
-                        note.completed !== true && (
-                          <NoteCardContainer key={note.id}>
-                            <NoteCard note={note} key={note.id} />
-                          </NoteCardContainer>
-                        )
-                    )
-                    .reverse()}
+                  {!isChecked &&
+                    notes
+                      ?.map(
+                        (note) =>
+                          includesSearch(note) &&
+                          note.completed !== true && (
+                            <NoteCardContainer key={note.id}>
+                              <NoteCard note={note} key={note.id} />
+                            </NoteCardContainer>
+                          )
+                      )
+                      .reverse()}
                   {notes
                     ?.map(
                       (note) =>
@@ -167,15 +125,31 @@ const CategoryTabs = () => {
                 (note) => includesSearch(note) && note.category === cat
               ).length > 0 ? (
                 <NotesGrid>
-                  {notes?.map(
-                    (note) =>
-                      note.category === cat &&
-                      includesSearch(note) && (
-                        <NoteCardContainer key={note.id}>
-                          <NoteCard note={note} />
-                        </NoteCardContainer>
+                  {!isChecked &&
+                    notes
+                      ?.map(
+                        (note) =>
+                          note.category === cat &&
+                          includesSearch(note) &&
+                          note.completed !== true && (
+                            <NoteCardContainer key={note.id}>
+                              <NoteCard note={note} />
+                            </NoteCardContainer>
+                          )
                       )
-                  )}
+                      .reverse()}
+                  {notes
+                    ?.map(
+                      (note) =>
+                        note.category === cat &&
+                        includesSearch(note) &&
+                        note.completed === true && (
+                          <NoteCardContainer key={note.id}>
+                            <NoteCard note={note} />
+                          </NoteCardContainer>
+                        )
+                    )
+                    .reverse()}
                 </NotesGrid>
               ) : (
                 <NoNotes />
