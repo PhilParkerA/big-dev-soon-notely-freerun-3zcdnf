@@ -12,7 +12,6 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 import categories from "../constants/categories";
-import { useIsChecked } from "../contexts/IsCheckedContext";
 import { useCategory } from "../contexts/categoryContext";
 import { useNotes } from "../contexts/notesContext";
 import useSearch from "../hooks/useSearch";
@@ -39,20 +38,16 @@ const CategoryTabs = () => {
       onChange={handleTabChange}
     >
       <Hide below="md">
-        <Wrap as={TabList}>
+        <Wrap as={TabList} className="tab-wrap">
           {categories.map((cat, index) => (
             <WrapItem
               key={index}
-              display={{ sm: "flex" }}
-              width={{ sm: 100, lg: "max-content" }}
-              justifyContent={"center"}
             >
               <Tab
-                justifySelf={"center"}
+                className="cat-tab"
                 _selected={{
                   color: "brand.500",
                   fontWeight: "700",
-                  borderBottom: { sm: "2px", lg: "none" },
                 }}
                 _hover={{
                   color: "brand.500",
@@ -63,13 +58,14 @@ const CategoryTabs = () => {
             </WrapItem>
           ))}
         </Wrap>
-        <TabIndicator
-          mt="-1.5px"
-          height={{ base: 0, lg: "2px" }}
-          bg="brand.500"
-          borderRadius="1px"
-        />
       </Hide>
+      <TabIndicator
+        className="cat-tab-line"
+        mt="-1.5px"
+        height={{ base: 0, lg: "2px" }}
+        bg="brand.500"
+        borderRadius="1px"
+      />
       <Show below="md">
         <TabSelect />
       </Show>

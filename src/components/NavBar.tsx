@@ -47,7 +47,7 @@ const NavBar = () => {
             />
           </GridItem>
           <GridItem justifySelf={"end"}>
-            <Stack direction={"row"} spacing={{base: 4, sm: 7}}>
+            <Stack direction={"row"} spacing={{base: 4, sm: 7}} alignItems={"center"}>
               <ThemeSwitch />
               <AddForm />
             </Stack>

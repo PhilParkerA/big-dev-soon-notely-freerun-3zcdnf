@@ -1,5 +1,6 @@
 import {
   Button,
+  Flex,
   FormControl,
   FormLabel,
   IconButton,
@@ -12,6 +13,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Spacer,
   Text,
   Textarea,
   Tooltip,
@@ -19,7 +21,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { FaPencil } from "react-icons/fa6";
 import categories from "../constants/categories";
@@ -47,6 +49,7 @@ type FormData = z.infer<typeof schema>;
 const EditForm = ({ note }: Props) => {
   const { updateNote } = useNotesHook();
   const [hueRotation, setHueRotation] = useState(0);
+  const [charLeft, setCharLeft] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -58,6 +61,9 @@ const EditForm = ({ note }: Props) => {
     />
   );
   const [overlay, setOverlay] = useState(<OverlayOne />);
+
+  const handleCharChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
+    setCharLeft(e.target.value.length);
 
   const {
     register,
@@ -107,9 +113,9 @@ const EditForm = ({ note }: Props) => {
             <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl>
-                <FormLabel>Title</FormLabel>
+                <FormLabel fontSize={{base: 'sm', sm:'inherit'}}>Title</FormLabel>
                 <Input
-                  {...register("title")}
+                  {...register("title")} fontSize={{base: 'sm', sm:'inherit'}}
                   autoFocus
                   defaultValue={note.title}
                   placeholder="Note title"
@@ -123,12 +129,20 @@ const EditForm = ({ note }: Props) => {
               </FormControl>
 
               <FormControl mt={4}>
-                <FormLabel>Description (optional)</FormLabel>
+                <Flex alignItems={"center"}>
+                  <FormLabel fontSize={{base: 'xs', sm:'inherit'}}>Description (optional)</FormLabel>
+                  <Spacer />
+                  <Text fontSize={{base: '2xs', sm:'xs'}}
+                    color={"gray"}
+                  >{`${charLeft}/200`}</Text>
+                </Flex>
                 <Textarea
-                  {...register("description")}
+                  {...register("description")} fontSize={{base: 'xs', sm:'inherit'}}
                   defaultValue={note.description}
                   maxLength={200}
+                  minH={'150px'}
                   placeholder="Description..."
+                  onChange={handleCharChange}
                 />
                 {errors.description && (
                   <Text color="red.300" mt={2}>
@@ -138,8 +152,8 @@ const EditForm = ({ note }: Props) => {
               </FormControl>
 
               <FormControl mt={4}>
-                <FormLabel>Category</FormLabel>
-                <Select {...register("category")} defaultValue={note.category}>
+                <FormLabel fontSize={{base: 'xs', sm:'inherit'}}>Category</FormLabel>
+                <Select {...register("category")} defaultValue={note.category} fontSize={{base: 'xs', sm:'inherit'}}>
                   {categories.map(
                     (cat, index) =>
                       index > 0 && (

@@ -1,10 +1,9 @@
-import React from "react";
-import NoteCard from "./NoteCard";
-import NoteCardContainer from "./NoteCardContainer";
-import NotesGrid from "./NotesGrid";
 import { useIsChecked } from "../contexts/IsCheckedContext";
 import { useNotes } from "../contexts/notesContext";
 import useSearch from "../hooks/useSearch";
+import NoteCard from "./NoteCard";
+import NoteCardContainer from "./NoteCardContainer";
+import NotesGrid from "./NotesGrid";
 
 interface Props {
   category: string;

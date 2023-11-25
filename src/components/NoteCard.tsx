@@ -78,7 +78,7 @@ const NoteCard = ({ note }: Props) => {
           isTruncated
           fontFamily={"Montserrat"}
           fontWeight={"bold"}
-          fontSize={{ base: "x;", sm: "2xl" }}
+          fontSize={{ base: "xl", sm: "2xl" }}
         >
           {note.title}
         </Heading>

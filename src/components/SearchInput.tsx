@@ -5,7 +5,7 @@ import {
   InputGroup,
   InputLeftElement,
   useBreakpointValue,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChangeEvent } from "react";
@@ -35,7 +35,7 @@ const SearchInput = ({ showSearch, setShowSearch }: Props) => {
           <IconButton
             pos={"absolute"}
             top={"-20px"}
-            right={{base: 0, sm: 7}}
+            right={{ base: 0, sm: 4 }}
             onClick={() => setShowSearch(!showSearch)}
             isRound={true}
             variant="solid"
@@ -54,14 +54,14 @@ const SearchInput = ({ showSearch, setShowSearch }: Props) => {
                 transition={{ duration: 0.3 }}
               >
                 <Box
-                  pos={'absolute'}
+                  pos={"absolute"}
                   top="110px"
-                  right={{base: "-147px", sm: "-160px"}}
+                  right={{ base: "-132px", sm: "-160px" }}
                   mx={"auto"}
                   display={"flex"}
                   justifyContent={"center"}
                 >
-                  <InputGroup width={{base: "270px",sm: "350px"}}>
+                  <InputGroup width={{ base: "270px", sm: "350px" }}>
                     <InputLeftElement children={<BsSearch />} />
                     <Input
                       bg={useColorModeValue("white", "#353F4F")}
