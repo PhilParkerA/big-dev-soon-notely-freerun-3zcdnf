@@ -7,23 +7,24 @@ interface Props {
 }
 
 const Category = ({ category }: Props) => {
-  const { setSelectedCategory } = useCategory();
+  const { setSelectedCategoryIndex } = useCategory();
 
-  const catColors = categoryColors[category]
+  const catColors = categoryColors[category];
   return (
     <Button
       className="card-category-button"
       onClick={() =>
-        setSelectedCategory(categories.findIndex((c) => c === category))
+        setSelectedCategoryIndex(categories.findIndex((c) => c === category))
       }
       size={"xs"}
       rounded={"xl"}
       px={3}
       fontSize={{ base: 10, sm: "xs" }}
-      bg={useColorModeValue(catColors[0], catColors[1])}
-      color={useColorModeValue(catColors[1], catColors[0])}
+      bg={catColors}
+      color={"rgba(255,255,255, 0.7);"}
       _hover={{
-        background: useColorModeValue("brand.700", "white"),
+        backgroundImage: "linear-gradient(rgb(0 0 0 / 30%) 0 0)",
+        color: "white",
       }}
     >
       {category}

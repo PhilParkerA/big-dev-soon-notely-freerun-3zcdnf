@@ -1,15 +1,15 @@
 import {
-    Dispatch,
-    ReactNode,
-    SetStateAction,
-    createContext,
-    useContext,
-    useState,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useContext,
+  useState,
 } from "react";
 
 interface CategoryContextType {
-  selectedCategory: number;
-  setSelectedCategory: Dispatch<SetStateAction<number>>;
+  selectedCategoryIndex: number;
+  setSelectedCategoryIndex: Dispatch<SetStateAction<number>>;
 }
 
 interface Props {
@@ -27,10 +27,13 @@ export const useCategory = () => {
 };
 
 export const CategoryProvider = ({ children }: Props) => {
-  const [selectedCategory, setSelectedCategory] = useState(0);
+  const [selectedCategoryIndex, setSelectedCategoryIndex] =
+    useState(0);
 
   return (
-    <CategoryContext.Provider value={{ selectedCategory, setSelectedCategory }}>
+    <CategoryContext.Provider
+      value={{ selectedCategoryIndex, setSelectedCategoryIndex }}
+    >
       {children}
     </CategoryContext.Provider>
   );

@@ -24,20 +24,22 @@ export const catColors = [
 ];
 
 type CategoryColors = {
-  [category: string]: [string, string]; // Tuple of light and dark colors
+  [category: string]: string; 
 };
 
 export const categoryColors: CategoryColors = {
-  All: ["#F7FAFC", "#CBD5E0"],
-  Personal: ["#F1F8FF", "#4299E1"],
-  Work: ["#E6FFFA", "#2F855A"],
-  Study: ["#E2E8F0", "#718096"],
-  Church: ["#F7FAFC", "#11b6ca"],
-  Shopping: ["#F0F5FF", "#4C51BF"],
-  Travel: ["#EBF4FF", "#2B6CB0"],
-  Health: ["#F0FFF4", "#38A169"],
-  Ideas: ["#EBF4FF", "#2C5282"],
-  Miscellaneous: ["#F7FAFC", "#4A5568"],
+  All: "#11b6ca",
+  Personal: "#4299E1",
+  Work: "#2B6CB0",
+  Study: "#9820c0",
+  Church: "#0E9AB1",
+  Shopping: "#4C51BF",
+  Travel: "#f4900d",
+  Health: "#38A169",
+  Ideas: "#f50481",
+  Miscellaneous: "#4A5568"
 };
+
+
 
 export default categories;

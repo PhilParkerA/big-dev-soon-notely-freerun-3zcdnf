@@ -4,7 +4,7 @@ import { useCategory } from "../contexts/categoryContext";
 import { useSearchText } from "../contexts/searchTextContext";
 
 const HeadingComp = () => {
-  const { selectedCategory } = useCategory();
+  const { selectedCategoryIndex } = useCategory();
   const { searchText } = useSearchText();
   return (
     <Heading
@@ -14,8 +14,8 @@ const HeadingComp = () => {
     >
       {searchText
         ? "Search"
-        : selectedCategory
-        ? categories[selectedCategory]
+        : selectedCategoryIndex
+        ? categories[selectedCategoryIndex]
         : "Your"}{" "}
       notes{" "}
       {searchText && (

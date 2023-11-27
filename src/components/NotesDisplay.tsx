@@ -11,7 +11,7 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import categories from "../constants/categories";
+import categories, { categoryColors } from "../constants/categories";
 import { useCategory } from "../contexts/categoryContext";
 import { useNotes } from "../contexts/notesContext";
 import useSearch from "../hooks/useSearch";
@@ -24,33 +24,31 @@ import TabSelect from "./TabSelect";
 const CategoryTabs = () => {
   const { notes } = useNotes();
   const { includesSearch } = useSearch();
-  const { selectedCategory, setSelectedCategory } = useCategory();
+  const { selectedCategoryIndex, setSelectedCategoryIndex } = useCategory();
 
   const handleTabChange = (category: number) => {
-    setSelectedCategory(category);
+    setSelectedCategoryIndex(category);
   };
 
   return (
     <Tabs
       mt={5}
       variant={"unstyled"}
-      index={selectedCategory}
+      index={selectedCategoryIndex}
       onChange={handleTabChange}
     >
       <Hide below="md">
         <Wrap as={TabList} className="tab-wrap">
           {categories.map((cat, index) => (
-            <WrapItem
-              key={index}
-            >
+            <WrapItem key={index}>
               <Tab
                 className="cat-tab"
                 _selected={{
-                  color: "brand.500",
+                  color: categoryColors[cat],
                   fontWeight: "700",
                 }}
                 _hover={{
-                  color: "brand.500",
+                  color: categoryColors[cat],
                 }}
               >
                 {cat}
@@ -63,7 +61,7 @@ const CategoryTabs = () => {
         className="cat-tab-line"
         mt="-1.5px"
         height={{ base: 0, lg: "2px" }}
-        bg="brand.500"
+        bg={categoryColors[categories[selectedCategoryIndex]]}
         borderRadius="1px"
       />
       <Show below="md">

@@ -15,7 +15,7 @@ import { useCategory } from "../contexts/categoryContext";
 import { useState } from "react";
 
 const NavBar = () => {
-  const { setSelectedCategory } = useCategory();
+  const { setSelectedCategoryIndex } = useCategory();
   const [showSearch, setShowSearch] = useState(false);
 
   return (
@@ -24,7 +24,7 @@ const NavBar = () => {
         bg={useColorModeValue("white", "gray.700")}
         boxShadow={"lg"}
         h={"70px"}
-        px={{base: 2, sm: 10}}
+        px={{ base: 2, sm: 10 }}
         mb={showSearch ? "80px" : 0}
         transition={"margin-bottom 0.25s ease-in-out"}
       >
@@ -35,7 +35,7 @@ const NavBar = () => {
           maxWidth={"1600px"}
           mx={"auto"}
         >
-          <GridItem onClick={() => setSelectedCategory(0)}>
+          <GridItem onClick={() => setSelectedCategoryIndex(0)}>
             <Text fontWeight={"700"} cursor={"pointer"}>
               Notely
             </Text>
@@ -47,7 +47,11 @@ const NavBar = () => {
             />
           </GridItem>
           <GridItem justifySelf={"end"}>
-            <Stack direction={"row"} spacing={{base: 4, sm: 7}} alignItems={"center"}>
+            <Stack
+              direction={"row"}
+              spacing={{ base: 4, sm: 7 }}
+              alignItems={"center"}
+            >
               <ThemeSwitch />
               <AddForm />
             </Stack>

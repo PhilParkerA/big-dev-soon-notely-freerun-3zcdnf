@@ -3,13 +3,13 @@ import categories from "../constants/categories";
 import { useCategory } from "../contexts/categoryContext";
 
 const TabSelect = () => {
-  const { setSelectedCategory } = useCategory();
+  const { setSelectedCategoryIndex } = useCategory();
 
   return (
     <Select
       placeholder="All"
       onChange={(e) =>
-        setSelectedCategory(
+        setSelectedCategoryIndex(
           e.target.value ? categories.findIndex((c) => c === e.target.value) : 0
         )
       }
