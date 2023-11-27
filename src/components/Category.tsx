@@ -1,6 +1,6 @@
-import { Button, useColorModeValue } from "@chakra-ui/react";
-import { useCategory } from "../contexts/categoryContext";
+import { Button } from "@chakra-ui/react";
 import categories, { categoryColors } from "../constants/categories";
+import { useCategory } from "../contexts/categoryContext";
 
 interface Props {
   category: string;
