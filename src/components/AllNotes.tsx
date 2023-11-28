@@ -1,6 +1,7 @@
 import { useIsChecked } from "../contexts/IsCheckedContext";
 import { useNotes } from "../contexts/notesContext";
 import useSearch from "../hooks/useSearch";
+import NoNotes from "./NoNotes";
 import NoteCard from "./NoteCard";
 import NoteCardContainer from "./NoteCardContainer";
 import NotesGrid from "./NotesGrid";
@@ -10,7 +11,11 @@ const AllNotes = () => {
   const { isChecked } = useIsChecked();
   const { includesSearch } = useSearch();
 
-  return (
+  return notes &&
+    notes.filter((note) => includesSearch(note) && isChecked && note.completed).length ===
+      0&&isChecked ? (
+    <NoNotes />
+  ) : (
     <NotesGrid>
       {!isChecked &&
         notes

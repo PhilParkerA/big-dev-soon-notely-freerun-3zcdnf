@@ -73,7 +73,11 @@ const EditForm = ({ note }: Props) => {
 
   const onSubmit = (data: FieldValues) => {
     if (data) {
-      const updatedNote = { ...note, ...data };
+      const updatedNote = {
+        ...note,
+        ...data,
+        date: new Date().toISOString().slice(0, 10),
+      };
       updateNote(updatedNote);
     }
     setTimeout(() => {
@@ -113,9 +117,12 @@ const EditForm = ({ note }: Props) => {
             <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl>
-                <FormLabel fontSize={{base: 'sm', sm:'inherit'}}>Title</FormLabel>
+                <FormLabel fontSize={{ base: "sm", sm: "inherit" }}>
+                  Title
+                </FormLabel>
                 <Input
-                  {...register("title")} fontSize={{base: 'sm', sm:'inherit'}}
+                  {...register("title")}
+                  fontSize={{ base: "sm", sm: "inherit" }}
                   autoFocus
                   defaultValue={note.title}
                   placeholder="Note title"
@@ -130,17 +137,21 @@ const EditForm = ({ note }: Props) => {
 
               <FormControl mt={4}>
                 <Flex alignItems={"center"}>
-                  <FormLabel fontSize={{base: 'xs', sm:'inherit'}}>Description (optional)</FormLabel>
+                  <FormLabel fontSize={{ base: "xs", sm: "inherit" }}>
+                    Description (optional)
+                  </FormLabel>
                   <Spacer />
-                  <Text fontSize={{base: '2xs', sm:'xs'}}
+                  <Text
+                    fontSize={{ base: "2xs", sm: "xs" }}
                     color={"gray"}
                   >{`${charLeft}/200`}</Text>
                 </Flex>
                 <Textarea
-                  {...register("description")} fontSize={{base: 'xs', sm:'inherit'}}
+                  {...register("description")}
+                  fontSize={{ base: "xs", sm: "inherit" }}
                   defaultValue={note.description}
                   maxLength={200}
-                  minH={'150px'}
+                  minH={"150px"}
                   placeholder="Description..."
                   onChange={handleCharChange}
                 />
@@ -152,8 +163,14 @@ const EditForm = ({ note }: Props) => {
               </FormControl>
 
               <FormControl mt={4}>
-                <FormLabel fontSize={{base: 'xs', sm:'inherit'}}>Category</FormLabel>
-                <Select {...register("category")} defaultValue={note.category} fontSize={{base: 'xs', sm:'inherit'}}>
+                <FormLabel fontSize={{ base: "xs", sm: "inherit" }}>
+                  Category
+                </FormLabel>
+                <Select
+                  {...register("category")}
+                  defaultValue={note.category}
+                  fontSize={{ base: "xs", sm: "inherit" }}
+                >
                   {categories.map(
                     (cat, index) =>
                       index > 0 && (
