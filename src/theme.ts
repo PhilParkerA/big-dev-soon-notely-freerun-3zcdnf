@@ -1,4 +1,4 @@
-import { ThemeConfig, extendTheme, useColorModeValue,  } from "@chakra-ui/react";
+import { ThemeConfig, extendTheme, useColorModeValue } from "@chakra-ui/react";
 
 const config: ThemeConfig = {
   initialColorMode: "dark",
@@ -38,16 +38,16 @@ const theme = extendTheme({
       900: "#111",
     },
     brand: {
-      50: '#E5F7FA',
-      100: '#C2E4F5',
-      200: '#99D2EE',
-      300: '#6EB9E5',
-      400: '#4A9ACD',
-      500: '#11b6ca', // Teal
-      600: '#0E9AB1',
-      700: '#0A7C92',
-      800: '#086377',
-      900: '#064D5B',
+      50: "#E5F7FA",
+      100: "#C2E4F5",
+      200: "#99D2EE",
+      300: "#6EB9E5",
+      400: "#4A9ACD",
+      500: "#11b6ca", // Teal
+      600: "#0E9AB1",
+      700: "#0A7C92",
+      800: "#086377",
+      900: "#064D5B",
     },
   },
 });

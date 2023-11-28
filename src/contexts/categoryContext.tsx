@@ -27,8 +27,7 @@ export const useCategory = () => {
 };
 
 export const CategoryProvider = ({ children }: Props) => {
-  const [selectedCategoryIndex, setSelectedCategoryIndex] =
-    useState(0);
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
 
   return (
     <CategoryContext.Provider

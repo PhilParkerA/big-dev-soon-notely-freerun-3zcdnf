@@ -11,7 +11,7 @@ import {
   Text,
   Tooltip,
   useDisclosure,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import { MutableRefObject, useState } from "react";
 import useNotesHook, { Note } from "../hooks/useNotesHook";

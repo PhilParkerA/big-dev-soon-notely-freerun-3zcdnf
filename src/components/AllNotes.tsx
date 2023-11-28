@@ -12,8 +12,9 @@ const AllNotes = () => {
   const { includesSearch } = useSearch();
 
   return notes &&
-    notes.filter((note) => includesSearch(note) && isChecked && note.completed).length ===
-      0&&isChecked ? (
+    notes.filter((note) => includesSearch(note) && isChecked && note.completed)
+      .length === 0 &&
+    isChecked ? (
     <NoNotes />
   ) : (
     <NotesGrid>

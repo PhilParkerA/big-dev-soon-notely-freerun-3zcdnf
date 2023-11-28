@@ -6,7 +6,6 @@ import NavBar from "./components/NavBar";
 import ShowCompletedCheckBox from "./components/ShowCompletedCheckBox";
 
 function App() {
-
   return (
     <Box bg={useColorModeValue("gray.100", "gray.700")} h={"100%"}>
       <NavBar />

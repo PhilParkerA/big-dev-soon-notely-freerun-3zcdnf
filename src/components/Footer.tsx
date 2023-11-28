@@ -49,7 +49,7 @@ function Footer() {
       width={"100%"}
       height={{ base: "120px", md: "70px" }}
       maxW={"1920px"}
-      mx={'auto'}
+      mx={"auto"}
     >
       <Container
         maxW={"1600px"}

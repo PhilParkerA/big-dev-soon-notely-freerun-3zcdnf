@@ -24,7 +24,7 @@ export const catColors = [
 ];
 
 type CategoryColors = {
-  [category: string]: string; 
+  [category: string]: string;
 };
 
 export const categoryColors: CategoryColors = {
@@ -37,9 +37,7 @@ export const categoryColors: CategoryColors = {
   Travel: "#f4900d",
   Health: "#38A169",
   Ideas: "#f50481",
-  Miscellaneous: "#4A5568"
+  Miscellaneous: "#4A5568",
 };
-
-
 
 export default categories;

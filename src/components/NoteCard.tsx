@@ -35,8 +35,7 @@ const NoteCard = ({ note }: Props) => {
   };
 
   return (
-    <Center className={note.completed?"completed-note":""}>
-      
+    <Center className={note.completed ? "completed-note" : ""}>
       <Box
         p={5}
         w={"100%"}
@@ -56,7 +55,9 @@ const NoteCard = ({ note }: Props) => {
                 variant="solid"
                 bg={"transparent"}
                 aria-label="Done"
-                icon={note.completed ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
+                icon={
+                  note.completed ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />
+                }
                 onClick={() => {
                   const updatedNote = { ...note, completed: !note.completed };
                   updateNote(updatedNote);
@@ -82,17 +83,14 @@ const NoteCard = ({ note }: Props) => {
         >
           {note.title}
         </Heading>
-        <Text
-          mt={2}
-          fontSize={{ base: 10, sm: "sm" }}
-        >
+        <Text mt={2} fontSize={{ base: 10, sm: "sm" }}>
           {note.description}
         </Text>
         <Text
           color={"gray"}
           position={"absolute"}
           right={5}
-          bottom={{base: 2,sm: 4}}
+          bottom={{ base: 2, sm: 4 }}
           fontSize={"2xs"}
         >
           {note.date}
