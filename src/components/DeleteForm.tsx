@@ -25,14 +25,13 @@ interface Props {
 
 const DeleteForm = ({ note, otherButtonRef }: Props) => {
   const { deleteNote } = useNotesHook();
-  const [hueRotation, setHueRotation] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
   const OverlayOne = () => (
     <ModalOverlay
       bg="blackAlpha.300"
-      backdropFilter={`blur(10px) hue-rotate(${hueRotation}deg)`}
+      backdropFilter={`blur(10px) hue-rotate(0)`}
       transition="background-color 0.3s ease-in-out"
     />
   );

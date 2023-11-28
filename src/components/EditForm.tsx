@@ -48,7 +48,6 @@ type FormData = z.infer<typeof schema>;
 
 const EditForm = ({ note }: Props) => {
   const { updateNote } = useNotesHook();
-  const [hueRotation, setHueRotation] = useState(0);
   const [charLeft, setCharLeft] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -56,7 +55,7 @@ const EditForm = ({ note }: Props) => {
   const OverlayOne = () => (
     <ModalOverlay
       bg="blackAlpha.300"
-      backdropFilter={`blur(10px) hue-rotate(${hueRotation}deg)`}
+      backdropFilter={`blur(10px) hue-rotate(0)`}
       transition="background-color 0.3s ease-in-out"
     />
   );
